@@ -100,10 +100,11 @@ class PaypalIPNListener
 
         $ch = curl_init();
 
+        curl_setopt($ch, CURLOPT_SSLVERSION, 6);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-        curl_setopt($ch, CURLOPT_CAINFO,
-            __DIR__ . '/cert/api_cert_chain.crt');
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        // curl_setopt($ch, CURLOPT_CAINFO,
+            // __DIR__ . '/cert/api_cert_chain.crt');
         curl_setopt($ch, CURLOPT_URL, $uri);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $encoded_data);
@@ -111,7 +112,6 @@ class PaypalIPNListener
         curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_SSLVERSION, 6);
 
         $this->response = curl_exec($ch);
         $this->response_status = (string)curl_getinfo($ch, CURLINFO_HTTP_CODE);
